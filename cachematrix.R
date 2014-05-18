@@ -22,30 +22,39 @@
 # the function returns a list that holds the four functions
 makeCacheMatrix <- function(x = matrix()) {
     inversion <- NULL
+    ## Set Matrix
     set <- function(y) {
       x <<- y
       inversion <<- NULL
     }
+    
+    #Get Matrix
     get <- function() x
-    setinversion <- function(inverted_matrix) inversion <<- inverted_matrix
-    getinversion <- function() inversion
+    
+    #Set cached matrix
+    setCache <- function(inverted_matrix) inversion <<- inverted_matrix
+    
+    #Get cached matrix
+    getCache <- function() inversion
+    
+    #Return list of functions
     list(set = set, get = get,
-         setinversion = setinversion,
-         getinversion = getinversion)
+         setCache = setCache,
+         getCache = getCache)
     
 }
 
 
 ## Write a short comment describing this function
-# the function checks  if the inversion matrix exists or not with the function call getinversion()
+# the function checks  if the inversion matrix exists or not with the function call getCache()
 #
 # if the call returns a not null value then the inverted matrix exists in cache and hence that value is returned.
 #
-# Finally, the inverted matrix is cached in the makeCacheMatrix list using the function setinversion(inversion)
+# Finally, the inverted matrix is cached in the makeCacheMatrix list using the function setCache(inversion)
 
 cacheSolve <- function(x, ...) {
-  ## Return a matrix that is the inverse of 'x'
-  inversion <- x$getinversion()
+  ## Check if the inversion matrix exists
+  inversion <- x$getCache()
   if(!is.null(inversion)) {
     message("Retrieving from cache")
     return(inversion)
@@ -53,6 +62,7 @@ cacheSolve <- function(x, ...) {
   ## Not in cache and hence calculate inversion using solve.
   data <- x$get()
   inversion <- solve(data, ...)
-  x$setinversion(inversion)
+  ##Set Inversion Matrix in cache
+  x$setCache(inversion)
   inversion  
 }
