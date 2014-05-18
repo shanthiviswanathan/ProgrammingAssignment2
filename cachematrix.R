@@ -47,9 +47,10 @@ cacheSolve <- function(x, ...) {
   ## Return a matrix that is the inverse of 'x'
   inversion <- x$getinversion()
   if(!is.null(inversion)) {
-    message("getting cached data")
+    message("Retrieving from cache")
     return(inversion)
   }
+  ## Not in cache and hence calculate inversion using solve.
   data <- x$get()
   inversion <- solve(data, ...)
   x$setinversion(inversion)
